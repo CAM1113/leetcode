@@ -28,13 +28,13 @@ def bfs_get_roots(head, root, heads):
     bfs_get_roots(head, root.right, heads)
 
 
-def dfs(head, root):
+def dfs_judge_path(head, root):
     if head is None:
         return True
     if root is None:
         return False
     if head.val == root.val:
-        return dfs(head.next, root.left) or dfs(head.next, root.right)
+        return dfs_judge_path(head.next, root.left) or dfs_judge_path(head.next, root.right)
     else:
         return False
 
@@ -44,6 +44,6 @@ class Solution:
         roots = []
         bfs_get_roots(head, root, heads=roots)
         for r in roots:
-            if dfs(head, r):
+            if dfs_judge_path(head, r):
                 return True
         return False
