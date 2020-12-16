@@ -1,4 +1,3 @@
-
 class Solution:
     def containsDuplicate(self, nums) -> bool:
         s = set()
@@ -7,7 +6,6 @@ class Solution:
                 return True
             s.add(n)
         return False
-
 
 
 def main():
