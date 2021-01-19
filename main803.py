@@ -1,74 +1,88 @@
-def dfs(grid, is_used, position, is_click, result):
-    result.append(position)
-    is_used[position[0]][position[1]] = True
-    if position[0] == 0:
-        is_click[0] = False
-    if position[0] - 1 >= 0 and grid[position[0] - 1][position[1]] == 1 and not is_used[position[0] - 1][position[1]]:
-        dfs(grid, is_used, [position[0] - 1, position[1]], is_click, result)
+# 超时，每次要重复计算连通情况
+# def dfs(grid, is_used, current_x, current_y, num_rest):
+#     # 坐标范围约束
+#     if current_x < 0 or current_x >= len(grid) or current_y < 0 or current_y >= len(grid[0]):
+#         return
+#         # grid约束
+#     if grid[current_x][current_y] == 0 or is_used[current_x][current_y] == 1:
+#         return
+#     is_used[current_x][current_y] = 1
+#     num_rest[0] += 1
+#     dfs(grid, is_used, current_x - 1, current_y, num_rest)
+#     dfs(grid, is_used, current_x + 1, current_y, num_rest)
+#     dfs(grid, is_used, current_x, current_y - 1, num_rest)
+#     dfs(grid, is_used, current_x, current_y + 1, num_rest)
+# class Solution:
+#     def hitBricks(self, grid, hits):
+#         results = []
+#         num_rest = [0, sum([sum(g) for g in grid])]
+#         for hit in hits:
+#             is_used = [[0 for _ in range(len(grid[0]))] for _ in range(len(grid))]
+#             if grid[hit[0]][hit[1]] == 0:
+#                 results.append(0)
+#                 continue
+#             grid[hit[0]][hit[1]] = 0
+#             for i in range(len(grid[0])):
+#                 dfs(grid, is_used, 0, i, num_rest)
+#             results.append(num_rest[1] - num_rest[0] - 1)
+#             num_rest[1] = num_rest[0]
+#             num_rest[0] = 0
+#             grid = is_used
+#         return results
 
-    if position[0] + 1 < len(grid) and grid[position[0] + 1][position[1]] == 1 and not is_used[position[0] + 1][
-        position[1]]:
-        dfs(grid, is_used, [position[0] + 1, position[1]], is_click, result)
 
-    if position[1] - 1 >= 0 and grid[position[0]][position[1] - 1] == 1 and not is_used[position[0]][position[1] - 1]:
-        dfs(grid, is_used, [position[0], position[1] - 1], is_click, result)
+def dfs(grid, copy, is_used, current_x, current_y, array):
+    # 坐标范围约束
+    if current_x < 0 or current_x >= len(grid) or current_y < 0 or current_y >= len(grid[0]):
+        return
 
-    if position[1] + 1 < len(grid[0]) and grid[position[0]][position[1] + 1] == 1 and not is_used[position[0]][
-        position[1] + 1]:
-        dfs(grid, is_used, [position[0], position[1] + 1], is_click, result)
+    if current_x == 0:
+        is_used[current_x][current_y] = 1
+        array[0] += 1
+        dfs(grid, is_used, current_x - 1, current_y, array)
+        dfs(grid, is_used, current_x + 1, current_y, array)
+        dfs(grid, is_used, current_x, current_y - 1, array)
+        dfs(grid, is_used, current_x, current_y + 1, array)
+        return
 
+    # grid约束
+    if grid[current_x][current_y] == 0 or is_used[current_x][current_y] == 1:
+        return
 
-def dfs2(grid, grid_copy, num, position):
-    num[0] = num[0] + 1
-    grid[position[0]][position[1]] = 1
-    if position[0] - 1 >= 0 and grid_copy[position[0] - 1][position[1]] == 1 and grid[position[0] - 1][
-        position[1]] == 0:
-        dfs2(grid, grid_copy, num, [position[0] - 1, position[1]])
-
-    if position[0] + 1 < len(grid) and grid_copy[position[0] - 1][position[1]] == 1 and grid[position[0] + 1][
-        position[1]] == 0:
-        dfs2(grid, grid_copy, num, [position[0] + 1, position[1]])
-
-    if position[1] - 1 >= 0 and grid_copy[position[0]][position[1] - 1] == 1 and grid[position[0]][
-        position[1] - 1] == 0:
-        dfs2(grid, grid_copy, num, [position[0], position[1] - 1])
-
-    if position[1] + 1 < len(grid[0]) and grid_copy[position[0]][position[1] + 1] == 1 and grid[position[0]][
-        position[1] + 1] == 0:
-        dfs2(grid, grid_copy, num, [position[0], position[1] + 1])
+    is_used[current_x][current_y] = 1
+    array[0] += 1
+    dfs(grid, is_used, current_x - 1, current_y, array)
+    dfs(grid, is_used, current_x + 1, current_y, array)
+    dfs(grid, is_used, current_x, current_y - 1, array)
+    dfs(grid, is_used, current_x, current_y + 1, array)
 
 
 class Solution:
+
     def hitBricks(self, grid, hits):
         results = []
-        is_used = [[False for _ in range(len(grid[0]))] for _ in range(len(grid))]
-        grid_copy = [[a for a in aa] for aa in grid]
+        is_used = [[0 for _ in j] for j in grid]
+        num = [0]
+        copy = [[i for i in j] for j in grid]
+        for h in hits:
+            copy[h[0]][h[1]] = 0
 
-        for hit in hits:
-            grid[hit[0]][hit[1]] = 0
-
-        for i in range(len(grid)):
-            for j in range(len(grid[0])):
-                is_click = [True]
-                click_positions = []
-                dfs(grid, is_used, [i, j], is_click, click_positions)
-                if is_click[0]:
-                    for p in click_positions:
-                        grid[p[0]][p[1]] = 0
+        for i in range(len(grid[0])):
+            dfs(grid, copy, is_used, 0, i, num)
         hits = hits[::-1]
-        for hit in hits:
-            grid[hit[0]][hit[1]] = 1n  
+        for h in hits:
             num = [0]
-            dfs2(grid, grid_copy, num, hit)
+            grid[h[0]][h[1]] = 1
+            dfs(grid, is_used, h[0], h[1], num)
             results.append(num[0] - 1)
 
         return results[::-1]
 
 
 def main():
-    grids_ = [[1, 0, 1], [1, 1, 1]]
-    hits_ = [[0, 0], [0, 2], [1, 1]]
-    print(Solution().hitBricks(grids_, hits_))
+    grid = [[1], [1], [1], [1], [1]]
+    hits = [[3, 0], [4, 0], [1, 0], [2, 0], [0, 0]]
+    print(Solution().hitBricks(grid, hits))
 
 
 if __name__ == '__main__':
