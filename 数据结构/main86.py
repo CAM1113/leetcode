@@ -5,7 +5,10 @@
 #
 
 # Definition for singly-linked list.
-from Utils import ListNode, print_list
+class ListNode(object):
+    def __init__(self, x):
+        self.val = x
+        self.next = None
 
 
 class Solution(object):
@@ -29,7 +32,4 @@ class Solution(object):
         return smaller.next
 
 
-if __name__ == '__main__':
-    head = ListNode(1).append(4).append(3).append(2).append(5).append(2)
-    head = Solution().partition(head, 3)
-    print_list(head)
+
