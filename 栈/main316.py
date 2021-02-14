@@ -4,7 +4,7 @@ class Solution:
         for idx, c in enumerate(s):
             if c in result:
                 continue
-            while len(result)>0 and c < result[-1] and result[-1] in s[idx:]:
+            while len(result) > 0 and c < result[-1] and result[-1] in s[idx:]:
                 result.pop()
             result.append(c)
         r = ''.join(result)
