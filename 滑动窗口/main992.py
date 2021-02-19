@@ -2,7 +2,7 @@ from typing import List
 
 
 class Solution:
-    def subarraysWithKDis tinct(self, A: List[int], K: int) -> int:
+    def subarraysWi thKDistinct(self, A: List[int], K: int) -> int:
         start = 0
         length = 0
         cnt_dic = {}
@@ -21,7 +21,7 @@ class Solution:
                 del cnt_dic[A[start]]
 
 
-            start += 1.
+            start += 1
             length = 0
             cnt_dic = {}
 
