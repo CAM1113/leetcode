@@ -1,6 +1,7 @@
 from typing import List
 
 
+# 单调栈
 class Solution:
     def trap(self, height: List[int]) -> int:
         stack = []
@@ -28,5 +29,5 @@ class Solution:
 
 
 if __name__ == '__main__':
-    h = [4,2,0,3,2,5]
+    h = [4, 2, 0, 3, 2, 5]
     print(Solution().trap(h))
