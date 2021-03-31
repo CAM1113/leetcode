@@ -76,7 +76,7 @@ class Solution:
             for i in range(j):
                 if s[i] != s[j]:
                     dp[i][j] = False
-                elif j-i < 3:
+                elif j - i < 3:
                     dp[i][j] = True
                 else:
                     dp[i][j] = dp[i + 1][j - 1]
