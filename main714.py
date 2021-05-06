@@ -3,6 +3,7 @@ class Solution:
         pass
 
 def main():
+    pass
 
 
 
