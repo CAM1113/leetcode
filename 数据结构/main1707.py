@@ -9,11 +9,8 @@ class TreeNode:
         self.val = -1
 
 
-max_bit = 30
-
-
 def build_tree(root: TreeNode, n):
-    binary_list = [0] * max_bit
+    binary_list = [0] * 30
     index = 0
     _n = n
     while n > 0:
@@ -31,7 +28,6 @@ def build_tree(root: TreeNode, n):
                 root.right = TreeNode()
                 root.right.min_val = n
             root = root.right
-
         else:
             if root.left is None:
                 root.left = TreeNode()
@@ -42,7 +38,7 @@ def build_tree(root: TreeNode, n):
 
 def find_max(root: TreeNode, x: int, m: int):
     n = x
-    binary_list = [0] * max_bit
+    binary_list = [0] * 30
     index = 0
     while n > 0:
         if n % 2 == 1:
@@ -66,12 +62,10 @@ def find_max(root: TreeNode, x: int, m: int):
                 root = root.right
                 continue
         return -1
-
     if root.left is None and root.right is None:
         if m >= root.val:
             return root.val ^ x
         return -1
-
     return -1
 
 
@@ -81,7 +75,6 @@ class Solution:
         for n in nums:
             build_tree(root, n)
         result = []
-
         for q in queries:
             x, m = q[0], q[1]
             result.append(find_max(root, x, m))
@@ -89,6 +82,6 @@ class Solution:
 
 
 if __name__ == '__main__':
-    nums =[5,2,4,6,6,3]
-    queries = [[12,4],[8,1],[6,3]]
+    nums = [5, 2, 4, 6, 6, 3]
+    queries = [[12, 4], [8, 1], [6, 3]]
     print(Solution().maximizeXor(nums, queries))
