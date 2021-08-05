@@ -2,23 +2,23 @@ from typing import List
 
 
 # O(n**2)的时间复杂度
-class Solution1:
-    def lengthOfLIS(self, nums: List[int]) -> int:
-        index = 1
-        while index < len(nums):
-            if nums[index - 1] == nums[index]:
-                nums.pop(index)
-            else:
-                index += 1
-
-        dp = [1] * len(nums)
-        for i in range(1, len(nums)):
-            j = i - 1
-            while j >= 0:
-                if nums[j] < nums[i] and dp[i] < dp[j] + 1:
-                    dp[i] = dp[j] + 1
-                j -= 1
-        return dp[-1]
+# class Solution1:
+#     def lengthOfLIS(self, nums: List[int]) -> int:
+#         index = 1
+#         while index < len(nums):
+#             if nums[index - 1] == nums[index]:
+#                 nums.pop(index)
+#             else:
+#                 index += 1
+#
+#         dp = [1] * len(nums)
+#         for i in range(1, len(nums)):
+#             j = i - 1
+#             while j >= 0:
+#                 if nums[j] < nums[i] and dp[i] < dp[j] + 1:
+#                     dp[i] = dp[j] + 1
+#                 j -= 1
+#         return dp[-1]
 
 
 # O(n*log(n))的时间复杂度
@@ -57,6 +57,16 @@ class Solution:
         return len(le)
 
 
+class Solution2:
+    def lengthOfLIS(self, nums: List[int]) -> int:
+        dp = [1 for _ in nums]
+        for i in range(1, len(nums)):
+            for j in range(i):
+                if nums[i] > nums[j]:
+                    dp[i] = max(dp[i], dp[j] + 1)
+        return dp[-1]
+
+
 if __name__ == '__main__':
-    x =   [7,7,7,7,7,7,7]
+    x = [7, 7, 7, 7, 7, 7, 7]
     print(Solution().lengthOfLIS(x))
